@@ -1,0 +1,101 @@
+/* Message Bubble Styles */
+.message-bubble {
+  @apply px-4 py-2 rounded-lg max-w-md;
+}
+
+.message-user {
+  @apply bg-primary text-primary-foreground;
+}
+
+.message-ai {
+  @apply bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20;
+}
+
+.message-other {
+  @apply bg-muted;
+}
+
+/* Neural Glow Effect */
+.neural-glow {
+  position: relative;
+  overflow: visible;
+}
+
+.neural-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--primary)));
+  opacity: 30%;
+  animation: neural-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes neural-pulse {
+  0% {
+    opacity: 20%;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 60%;
+    transform: scale(1.02);
+  }
+}
+
+/* Sidebar Styles */
+.sidebar-bg {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)) 100%);
+}
+
+.sidebar-hover {
+  background: rgb(255 255 255 / 10%);
+}
+
+.sidebar-active {
+  background: rgb(255 255 255 / 20%);
+}
+
+/* Loading Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Smooth Transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Focus Styles */
+.focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 30%);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 50%);
+}

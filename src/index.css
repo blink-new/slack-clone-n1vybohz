@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 224 76% 48%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 221 83% 53%;
+    --radius: 0.75rem;
+    
+    /* Professional solid colors */
+    --sidebar-bg: 240 10% 3.9%;
+    --sidebar-hover: 240 5% 15%;
+    --sidebar-active: 221 83% 53%;
+  }
+
+  .dark {
+    --background: 240 15% 9%;
+    --foreground: 240 5% 96%;
+    --card: 240 12% 12%;
+    --card-foreground: 240 5% 96%;
+    --popover: 240 12% 12%;
+    --popover-foreground: 240 5% 96%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 240 15% 9%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 15% 9%;
+    --muted: 240 8% 20%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 224 76% 48%;
+    --accent-foreground: 240 15% 9%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 240 5% 96%;
+    --border: 240 8% 20%;
+    --input: 240 8% 20%;
+    --ring: 221 83% 53%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+
+    min-height: 100vh;
+  }
+
+  .dark body {
+    background: hsl(240deg 15% 9%);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted) / 30%);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 50%);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 70%);
+  }
+}
+
+@layer components {
+  .thread-gradient {
+    background: hsl(var(--primary) / 5%);
+  }
+
+  .message-bubble {
+    @apply rounded-2xl px-4 py-3 max-w-[80%] break-words;
+  }
+
+  .message-user {
+    @apply ml-auto;
+
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .message-other {
+    background: hsl(240deg 4.8% 95.9%);
+    color: hsl(240deg 10% 3.9%);
+    border: 1px solid hsl(240deg 5.9% 90%);
+  }
+
+  .message-ai {
+    background: hsl(214deg 100% 97%);
+    color: hsl(214deg 84% 20%);
+    border: 1px solid hsl(214deg 76% 88%);
+  }
+
+  /* Professional button styles */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors;
+  }
+
+  /* Professional card styles */
+  .card-professional {
+    @apply bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow;
+  }
+
+  /* Professional sidebar styles */
+  .sidebar-professional {
+    @apply bg-[hsl(var(--sidebar-bg))] text-white;
+  }
+
+  .sidebar-item {
+    @apply text-white/70 hover:text-white hover:bg-[hsl(var(--sidebar-hover))] transition-colors;
+  }
+
+  .sidebar-item-active {
+    @apply bg-[hsl(var(--sidebar-active))] text-white hover:bg-[hsl(var(--sidebar-active))]/90;
+  }
+
+  /* Neural glow effect for AI elements */
+  .neural-glow {
+    @apply transition-all duration-300;
+
+    filter: drop-shadow(0 0 8px hsl(var(--primary) / 30%));
+  }
+
+  .neural-glow:hover {
+    filter: drop-shadow(0 0 12px hsl(var(--primary) / 50%));
+  }
+
+  /* Email specific styles */
+  .email-thread-item {
+    @apply transition-all duration-200 hover:bg-muted/50 cursor-pointer rounded-lg;
+  }
+
+  .email-thread-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsl(var(--primary) / 10%);
+  }
+
+  .email-message-bubble {
+    @apply rounded-lg transition-all duration-200;
+  }
+
+  .email-message-bubble:hover {
+    box-shadow: 0 2px 8px hsl(var(--primary) / 15%);
+  }
+}
