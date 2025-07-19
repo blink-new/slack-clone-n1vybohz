@@ -58,15 +58,26 @@ export function ProductionThreadSidebar({ selectedChannelId, onChannelSelect }: 
   const handleCreateChannel = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!newChannelName.trim()) return
+    if (!newChannelName.trim()) {
+      console.log('Channel name is empty, not creating')
+      return
+    }
+
+    console.log('Creating channel:', {
+      name: newChannelName.trim(),
+      description: newChannelDescription.trim() || undefined,
+      type: newChannelType
+    })
 
     setIsCreating(true)
     try {
-      await createChannel(
+      const newChannel = await createChannel(
         newChannelName.trim(),
         newChannelDescription.trim() || undefined,
         newChannelType
       )
+      
+      console.log('Channel created successfully:', newChannel)
       
       setNewChannelName('')
       setNewChannelDescription('')
@@ -74,6 +85,8 @@ export function ProductionThreadSidebar({ selectedChannelId, onChannelSelect }: 
       setIsCreateChannelOpen(false)
     } catch (error) {
       console.error('Error creating channel:', error)
+      // Show user-friendly error message
+      alert(`Failed to create channel: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setIsCreating(false)
     }
