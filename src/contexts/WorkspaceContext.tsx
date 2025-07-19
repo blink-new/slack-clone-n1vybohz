@@ -57,17 +57,17 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
       const workspaceIds = membershipData.map((m: any) => m.workspaceId)
       
       if (workspaceIds.length > 0) {
-        // Use IN clause instead of OR for better performance and simpler syntax
-        const workspaceData = await blink.db.workspaces.list({
-          where: {
-            id: { in: workspaceIds }
-          }
-        })
-        setWorkspaces(workspaceData as Workspace[])
+        // Fetch all workspaces and filter client-side to avoid complex SQL
+        const allWorkspaces = await blink.db.workspaces.list()
+        const userWorkspaces = allWorkspaces.filter((workspace: any) => 
+          workspaceIds.includes(workspace.id)
+        )
+        
+        setWorkspaces(userWorkspaces as Workspace[])
         
         // Set first workspace as current if none selected
-        if (!currentWorkspace && workspaceData.length > 0) {
-          setCurrentWorkspace(workspaceData[0] as Workspace)
+        if (!currentWorkspace && userWorkspaces.length > 0) {
+          setCurrentWorkspace(userWorkspaces[0] as Workspace)
         }
       } else {
         setWorkspaces([])
@@ -98,19 +98,31 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
       
       if (channelIds.length > 0) {
         console.log('Fetching channel details...')
-        const channelData = await blink.db.channels.list({
-          where: {
-            AND: [
-              { workspaceId: currentWorkspace.id },
-              { id: { in: channelIds } }
-            ]
+        // Fetch all channels for this workspace first
+        const allChannelsInWorkspace = await blink.db.channels.list({
+          where: { workspaceId: currentWorkspace.id }
+        })
+        
+        console.log('All channels in workspace:', allChannelsInWorkspace)
+        
+        // Filter to only channels the user is a member of
+        const userChannels = allChannelsInWorkspace.filter((channel: any) => 
+          channelIds.includes(channel.id)
+        )
+        
+        console.log('User channels filtered:', userChannels)
+        setChannels(userChannels as Channel[])
+      } else {
+        console.log('No channel memberships found, checking for public channels...')
+        // If no memberships, show public channels in the workspace
+        const publicChannels = await blink.db.channels.list({
+          where: { 
+            workspaceId: currentWorkspace.id,
+            type: 'public'
           }
         })
-        console.log('Channel data fetched:', channelData)
-        setChannels(channelData as Channel[])
-      } else {
-        console.log('No channel memberships found, setting empty channels')
-        setChannels([])
+        console.log('Public channels found:', publicChannels)
+        setChannels(publicChannels as Channel[])
       }
     } catch (error) {
       console.error('Error fetching channels:', error)
